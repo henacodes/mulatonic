@@ -1,0 +1,14 @@
+html,
+body,
+#root,
+#canvas-container {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#canvas-container {
+  position: fixed;
+  inset: 0;
+}
