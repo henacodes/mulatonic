@@ -5,6 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useRef, useEffect, useState } from "react";
 import { Physics, RapierRigidBody } from "@react-three/rapier";
+import Obstacle from "./components/Obstacle";
 
 export default function Game() {
   const ballRef = useRef<RapierRigidBody>(null);
@@ -38,7 +39,8 @@ export default function Game() {
 
     // Get current position (for camera following)
     const p = body.translation();
-    //setBallPos([p.x, p.y, p.z]);
+
+    setBallPos([p.x, p.y, p.z]);
 
     // Physics params
     const MAX_MOVING_SPEED = 5;
@@ -46,11 +48,14 @@ export default function Game() {
     const JUMP_IMPULSE = 0.14;
 
     const vel = body.linvel();
+
     if (moving.current.fwd && vel.z > -MAX_MOVING_SPEED) {
-      body.applyImpulse({ x: 0, y: 0, z: -0.2 }, true);
+      body.applyImpulse({ x: 0, y: 0, z: -0.3 }, true);
+      console.log("movingnnnn on");
     }
     if (moving.current.bwd && vel.z < MAX_MOVING_SPEED) {
-      body.applyImpulse({ x: 0, y: 0, z: 0.2 }, true);
+      body.applyImpulse({ x: 0, y: 0, z: 0.3 }, true);
+      console.log("movingnnnn on");
     }
     const onGround = Math.abs(body.translation().y - 0.25) < 0.03;
     if (moving.current.jump && vel.y < MAX_JUMP_SPEED * 0.5) {
@@ -58,10 +63,7 @@ export default function Game() {
     }
 
     // Clamp speeds as safety
-    if (
-      Math.abs(vel.y) > MAX_JUMP_SPEED &&
-      (moving.current.bwd || moving.current.fwd)
-    ) {
+    if (Math.abs(vel.y) > MAX_JUMP_SPEED) {
       console.log("incremementing");
       body.setLinvel(
         { x: vel.x, y: Math.sign(vel.y) * MAX_JUMP_SPEED, z: vel.z },
@@ -73,6 +75,10 @@ export default function Game() {
         { x: vel.x, y: vel.y, z: Math.sign(vel.z) * MAX_MOVING_SPEED },
         true
       );
+    }
+
+    if (!moving.current.fwd && !moving.current.bwd && !moving.current.jump) {
+      body.setLinvel({ x: vel.x, y: vel.y, z: 0 }, true);
     }
   });
 
@@ -86,6 +92,13 @@ export default function Game() {
       <PerspectiveCamera
         position={[ballPos[0] + 3, 3, ballPos[2] + 5]}
         makeDefault
+      />
+      <Obstacle
+        position={[0, 2, 0]}
+        rectHeight={6}
+        rectWidth={1}
+        holeY={1}
+        holeRadius={0.3}
       />
       <ambientLight intensity={0.3} />
       <directionalLight color="white" position={[0, 10, 5]} />

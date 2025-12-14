@@ -1,70 +1,89 @@
-import { Geometry, Base, Subtraction } from "@react-three/csg";
-import * as THREE from "three";
-import {
-  Physics,
-  RigidBody,
-  CuboidCollider,
-  BallCollider,
-} from "@react-three/rapier";
+import { Geometry, Base, Subtraction, Addition } from "@react-three/csg";
+import { RigidBody, CuboidCollider } from "@react-three/rapier";
 
-export function ObstacleCSG({
-  position = [0, 0, 0],
-  rectSize = [4, 1, 0.5], // width, height, depth of the rectangle
-  holeRadius = 0.3, // radius of the circular hole
-  holeY = 0.5, // vertical offset of the hole in the rectangle
-}: {
-  position?: THREE.Vector3Tuple;
-  rectSize?: THREE.Vector3Tuple;
+type ObstacleProps = {
+  position?: [number, number, number];
+  rectWidth?: number;
+  rectHeight?: number;
+  rectDepth?: number;
+  holeY?: number; // Center Y position of hole (relative to group)
   holeRadius?: number;
-  holeY?: number;
-}) {
-  const [rectWidth, rectHeight, rectDepth] = rectSize;
+};
 
-  let holeHeight = holeRadius * 2;
+export default function ObstacleWithHole({
+  position = [0, 0, 0],
+  rectWidth = 0.4,
+  rectHeight = 2,
+  rectDepth = 0.5,
+  holeY = 0.5,
+  holeRadius = 0.3,
+}: ObstacleProps) {
+  const holeHeight = holeRadius * 2;
 
-  const chunkThickness = rectHeight / 2 - holeHeight / 2;
+  // Compute top and bottom chunk thickness
+  const wallTop = rectHeight / 2;
+  const wallBottom = -rectHeight / 2;
+  const holeTop = holeY + holeHeight / 2;
+  const holeBottom = holeY - holeHeight / 2;
+
+  const topChunkHeight = wallTop - holeTop;
+  const bottomChunkHeight = holeBottom - wallBottom;
+
+  // For physics colliders and solids: position is local to center of wall!
+  const topChunkY = wallTop - topChunkHeight / 2;
+  const bottomChunkY = wallBottom + bottomChunkHeight / 2;
 
   return (
-    /*    <mesh position={position}>
-      <meshStandardMaterial color="orange" />
-      <Geometry>
-        <Base>
-          <boxGeometry args={rectSize} />
-        </Base>
- 
-        <Subtraction
-          position={[0, holeY, 0]} // center hole vertically in box, use holeY for offset
-          rotation={[Math.PI / 2, 0, Math.PI / 2]} // rotate so cylinder points Z axis
-        >
-          <cylinderGeometry
-            args={[holeRadius, holeRadius, rectSize[2] + 0.1, 32]}
-          />
+    <group position={position}>
+      {/* Visual: CSG wall with cylindrical hole */}
+      {/*   <mesh>
+       <Geometry>
+        <meshStandardMaterial color="orange" />
+        <Base />
+        <mesh>
+          <boxGeometry args={[rectWidth, rectHeight, rectDepth]} />
+          <meshStandardMaterial color={"orange"} />
+        </mesh>
+
+        <Subtraction>
+          <mesh position={[1, 1, 1]}>
+            <cylinderGeometry
+              args={[holeRadius, holeRadius, rectDepth * 1, 32]}
+            />
+          </mesh>
         </Subtraction>
       </Geometry>
-    </mesh> */
-    <group position={position}>
-      {/* Top chunk */}
-      <RigidBody type="fixed" colliders={false}>
-        <mesh>
-          <boxGeometry args={[rectWidth, chunkThickness, rectDepth]} />
-          <meshStandardMaterial color="orange" />
-        </mesh>
-        <CuboidCollider
-          args={[rectWidth / 2, chunkThickness / 2, rectDepth / 2]}
-          position={[0, holeY + holeHeight / 2 + chunkThickness / 2, 0]}
-        />
-      </RigidBody>
-      {/* Bottom chunk */}
-      <RigidBody type="fixed" colliders={false}>
-        <mesh>
-          <boxGeometry args={[rectWidth, chunkThickness, rectDepth]} />
-          <meshStandardMaterial color="orange" />
-        </mesh>
-        <CuboidCollider
-          args={[rectWidth / 2, chunkThickness / 2, rectDepth / 2]}
-          position={[0, holeY - holeHeight / 2 - chunkThickness / 2, 0]}
-        />
-      </RigidBody>
+     </mesh> */}
+      <mesh>
+        <meshStandardMaterial />
+        <Geometry>
+          <Base>
+            <boxGeometry args={[rectWidth, rectHeight, rectDepth]} />
+          </Base>
+          <Subtraction rotation={[Math.PI / 2, 0, 0]} position={[0, holeY, 0]}>
+            <cylinderGeometry args={[holeRadius, holeRadius, 10, 32]} />
+          </Subtraction>
+        </Geometry>
+      </mesh>
+
+      {/* Top chunk physics */}
+      {topChunkHeight > 0 && (
+        <RigidBody type="fixed" colliders={false}>
+          <CuboidCollider
+            args={[rectWidth / 2, topChunkHeight / 2, rectDepth / 2]}
+            position={[0, topChunkY, 0]}
+          />
+        </RigidBody>
+      )}
+      {/* Bottom chunk physics */}
+      {bottomChunkHeight > 0 && (
+        <RigidBody type="fixed" colliders={false}>
+          <CuboidCollider
+            args={[rectWidth / 2, bottomChunkHeight / 2, rectDepth / 2]}
+            position={[0, bottomChunkY, 0]}
+          />
+        </RigidBody>
+      )}
     </group>
   );
 }

@@ -1,7 +1,5 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { useRef, useEffect, useState } from "react";
-import { Physics, RapierRigidBody } from "@react-three/rapier";
+import { Canvas } from "@react-three/fiber";
+import { Physics } from "@react-three/rapier";
 import Game from "./Game";
 
 export default function App() {
@@ -11,7 +9,7 @@ export default function App() {
       style={{ width: "100vw", height: "100vh", position: "fixed", inset: 0 }}
     >
       <Canvas>
-        <Physics>
+        <Physics debug>
           <Game />
         </Physics>
       </Canvas>
