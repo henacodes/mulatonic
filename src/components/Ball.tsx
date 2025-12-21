@@ -3,8 +3,8 @@ import { BallCollider, RigidBody, RapierRigidBody } from "@react-three/rapier";
 
 const Ball = forwardRef<
   RapierRigidBody,
-  { initialPos?: [number, number, number] }
->(({ initialPos = [0, 1, 4] }, ref) => (
+  { initialPos?: [number, number, number]; ballRadius: number }
+>(({ initialPos = [0, 1, 4], ballRadius }, ref) => (
   <RigidBody
     ref={ref}
     colliders={false}
@@ -12,7 +12,7 @@ const Ball = forwardRef<
     restitution={0.3}
   >
     <mesh>
-      <sphereGeometry args={[0.25, 32, 32]} />
+      <sphereGeometry args={[ballRadius, 32, 32]} />
       <meshStandardMaterial color="skyblue" />
     </mesh>
     <BallCollider args={[0.25]} />

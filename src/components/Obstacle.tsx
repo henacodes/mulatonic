@@ -35,25 +35,6 @@ export default function ObstacleWithHole({
 
   return (
     <group position={position}>
-      {/* Visual: CSG wall with cylindrical hole */}
-      {/*   <mesh>
-       <Geometry>
-        <meshStandardMaterial color="orange" />
-        <Base />
-        <mesh>
-          <boxGeometry args={[rectWidth, rectHeight, rectDepth]} />
-          <meshStandardMaterial color={"orange"} />
-        </mesh>
-
-        <Subtraction>
-          <mesh position={[1, 1, 1]}>
-            <cylinderGeometry
-              args={[holeRadius, holeRadius, rectDepth * 1, 32]}
-            />
-          </mesh>
-        </Subtraction>
-      </Geometry>
-     </mesh> */}
       <mesh>
         <meshStandardMaterial />
         <Geometry>
