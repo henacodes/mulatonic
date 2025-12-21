@@ -71,36 +71,20 @@ export default function PitchNoteLogger({
   return (
     !gameStart && (
       <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          width: "100vw",
-          height: "100vh",
-          zIndex: 9999,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backdropFilter: "blur(8px)",
-          background: "rgba(255,255,255,0.5)",
-        }}
+        className="
+    fixed inset-0 w-screen h-screen z-[9999]
+    flex items-center justify-center
+    backdrop-blur-lg bg-white/50
+  "
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex flex-col items-center">
           <button
-            style={{
-              fontSize: "1.2em",
-              padding: "0.75em 2em",
-              borderRadius: "0.5em",
-              cursor: "pointer",
-              border: "2px solid #8187dc",
-              background: "#faf8ff",
-              fontWeight: 600,
-            }}
+            className="
+        text-[1.2em] px-8 py-3 rounded-md
+        cursor-pointer border-2 border-track
+        bg-secondary/10 font-semibold
+        transition hover:bg-track/10 text-primary
+      "
             onClick={startPitchDetection}
           >
             Start Game

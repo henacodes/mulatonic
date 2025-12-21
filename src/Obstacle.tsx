@@ -58,7 +58,7 @@ export default function Obstacle({
     <group position={position}>
       {/* Visual Mesh with the hole */}
       <mesh>
-        <meshStandardMaterial color={"#5474c9"} />
+        <meshStandardMaterial color={"#54c974"} />
         <Geometry>
           <Base>
             <boxGeometry args={[width, height, depth]} />

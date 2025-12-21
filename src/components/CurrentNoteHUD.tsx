@@ -14,68 +14,33 @@ export default function CurrentNoteHUD({
 
   return (
     <div
-      style={{
-        position: "fixed",
-        top: "4vh",
-        left: 0,
-        right: 0,
-        margin: "0 auto",
-        zIndex: 1002,
-        display: "flex",
-        flexDirection: "row",
-        gap: "3em",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "1em 2em",
-        background: "rgba(255,255,255,0.7)",
-        borderRadius: "1.2em",
-        backdropFilter: "blur(7px)",
-        boxShadow: "0 3px 24px #b3b8f822",
-      }}
+      className="
+        fixed top-[4vh] left-0 right-0 mx-auto w-1/2 z-100
+        flex flex-row gap-12 justify-center items-center
+        px-8 py-4 rounded-2xl bg-white/70 backdrop-blur-md shadow-xl
+      "
     >
-      <div style={{ fontSize: "1.25em", fontWeight: 600, color: "#5474c9" }}>
+      <div className="text-[1.25em] font-semibold text-primary">
         You should sing
-        <span
-          style={{
-            fontFamily: "monospace",
-            fontWeight: 900,
-            color: "#ff8fab",
-            marginLeft: 12,
-            fontSize: "1.5em",
-            padding: "0 0.3em",
-          }}
-        >
+        <span className="font-mono font-extrabold text-complementary ml-3 text-[1.5em] px-1">
           {targetNote || "--"}
         </span>
       </div>
       <button
-        style={{
-          fontSize: "1.1em",
-          padding: "0.6em 1.7em",
-          borderRadius: "0.5em",
-          cursor: "pointer",
-          border: "2px solid #a29bfe",
-          background: "#faf8ff",
-          fontWeight: 700,
-          color: "#8187dc",
-        }}
+        className="
+          text-[1.1em] px-7 py-2 rounded-md border-2 border-track
+          bg-secondary/20 font-bold text-secondary cursor-pointer
+          transition hover:bg-track/10 disabled:opacity-60
+        "
         onClick={handlePlay}
         disabled={!targetNote}
         title={`Play note ${targetNote}`}
       >
         🔊 Play
       </button>
-      <div style={{ fontSize: "1.05em", color: "#8187dc", fontWeight: 600 }}>
-        {"You sang"}:
-        <span
-          style={{
-            fontFamily: "monospace",
-            fontWeight: 700,
-            color: "#74b9ff",
-            marginLeft: 8,
-            fontSize: "1.2em",
-          }}
-        >
+      <div className="text-[1.05em] text-secondary font-semibold">
+        You sang:
+        <span className="font-mono font-bold text-wall ml-2 text-[1.2em]">
           {userNote || "—"}
         </span>
       </div>

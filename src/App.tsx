@@ -9,6 +9,7 @@ import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
 import type { CurrentObstacle, Scale } from "./types";
 import CurrentNoteHUD from "./components/CurrentNoteHUD";
+import SiteInfo from "./components/SiteInfo";
 
 export default function App() {
   const [selectedScale, setSelectedScale] = useState<Scale | null>(null);
@@ -112,6 +113,8 @@ export default function App() {
           {gameFinished && <GameFinishScreen onRestart={handleRestart} />}
         </>
       )}
+
+      <SiteInfo />
     </div>
   );
 }

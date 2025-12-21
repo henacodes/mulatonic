@@ -8,7 +8,7 @@ import {
 export default function PostProcessing() {
   return (
     <EffectComposer>
-      <Bloom intensity={1.6} />
+      <Bloom intensity={0.4} />
       <Vignette darkness={0.9} />
       <Noise opacity={0.09} />
     </EffectComposer>

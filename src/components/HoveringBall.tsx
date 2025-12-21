@@ -17,7 +17,7 @@ export default function HoveringBall({
   return (
     <mesh position={position} ref={meshRef}>
       <sphereGeometry args={[0.1, 16, 16]} />
-      <meshStandardMaterial color="#a29bfe" emissiveIntensity={2} />
+      <meshStandardMaterial color="#54B2A9" emissiveIntensity={2} />
     </mesh>
   );
 }

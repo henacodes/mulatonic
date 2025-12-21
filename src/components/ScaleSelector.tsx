@@ -1,6 +1,5 @@
 import type { Scale } from "../types";
 
-// components/ScaleSelector.tsx
 export default function ScaleSelector({
   scales,
   onSelect,
@@ -9,20 +8,18 @@ export default function ScaleSelector({
   onSelect: (val: Scale) => void;
 }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1em" }}>
-      <h2>Select a Scale to Practice</h2>
-      {scales.map((scale, idx) => (
+    <div className="flex flex-col gap-4">
+      <h2 className="text-lg font-bold text-primary mb-2">
+        Select a Scale to Practice
+      </h2>
+      {scales.map((scale) => (
         <button
           key={scale.name}
-          style={{
-            fontSize: "1.2em",
-            padding: "0.75em 2em",
-            borderRadius: "0.5em",
-            cursor: "pointer",
-            border: "2px solid #8187dc",
-            background: "#faf8ff",
-            fontWeight: 600,
-          }}
+          className="
+            text-[1.2em] px-8 py-3 rounded-md border-2 border-primary
+            bg-secondary/10 font-semibold cursor-pointer
+            transition hover:bg-primary/10 text-primary
+          "
           onClick={() => onSelect(scale)}
         >
           {scale.name}: {scale.notes.join(" ")}
