@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { Outlines, Text, useTexture } from "@react-three/drei";
+import { Text, useTexture } from "@react-three/drei";
 
 import { Geometry, Base, Subtraction } from "@react-three/csg";
 import {
@@ -58,10 +58,7 @@ export default function Obstacle({
     <group position={position}>
       {/* Visual Mesh with the hole */}
       <mesh>
-        {/*  <meshStandardMaterial map={wallTexture} /> */}
-        <meshStandardMaterial color="hotpink" flatShading />
-        {/*         <Outlines thickness={0.015} color="#222" />
-         */}
+        <meshStandardMaterial color={"#5474c9"} />
         <Geometry>
           <Base>
             <boxGeometry args={[width, height, depth]} />
@@ -82,7 +79,7 @@ export default function Obstacle({
           />
         </RigidBody>
       )}
-      {/* Collider for the lower chunk */}
+
       {bottomChunkHeight > 0 && (
         <RigidBody ref={bottomRef} type="fixed" colliders={false}>
           <CuboidCollider
@@ -92,11 +89,10 @@ export default function Obstacle({
         </RigidBody>
       )}
 
-      {/* Optional: Show note text above the obstacle */}
       <Text
         position={[0, wallTop + 0.25, 0]}
         fontSize={0.5}
-        color="black"
+        color="#ffd166"
         anchorX="center"
         anchorY="bottom"
         outlineColor="white"

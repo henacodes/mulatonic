@@ -1,30 +1,17 @@
-import { NOTE_NAMES } from "./constants";
-export function noteToNormalizedValue(note: string, min = 3, max = 13) {
+import { NOTE_FREQS, NOTE_NAMES } from "./constants";
+
+export function noteToNormalizedValue(note: string, min = 0, max = 1) {
   const match = note.match(/^([A-G]#?)/i);
   if (!match) return min;
-  const NOTE_NAMES = [
-    "C",
-    "C#",
-    "D",
-    "D#",
-    "E",
-    "F",
-    "F#",
-    "G",
-    "G#",
-    "A",
-    "A#",
-    "B",
-  ];
+
   const noteName = match[1].toUpperCase();
   const idx = NOTE_NAMES.indexOf(noteName);
   if (idx === -1) return min;
 
-  // Give values equally spaced between min and max
-  const step = (max - min) / (NOTE_NAMES.length - 1);
-  return min + idx * step;
+  // Now, always use full list length:
+  const t = idx / (NOTE_NAMES.length - 1);
+  return min + t * (max - min);
 }
-
 export function getRequiredJumpStartZ(
   z_wall: number,
   holeY: number,
@@ -51,4 +38,63 @@ export function getRequiredJumpStartZ(
   // distance = |Vz| * dt
   const dz = Math.abs(forwardVel) * dt;
   return z_wall + dz; // Ball should be at this z when jump occurs
+}
+
+export function playNote(freq = 440, duration = 0.5, type = "sine") {
+  const ctx = new window.AudioContext();
+  const oscillator = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  oscillator.type = type as OscillatorType;
+  oscillator.frequency.value = freq;
+
+  gain.gain.setValueAtTime(0.24, ctx.currentTime); // Volume
+  oscillator.connect(gain).connect(ctx.destination);
+
+  oscillator.start();
+  oscillator.stop(ctx.currentTime + duration);
+
+  // stop and disconnect to free memory
+  oscillator.onended = () => {
+    gain.disconnect();
+    oscillator.disconnect();
+    ctx.close();
+  };
+}
+
+export function getNoteAdjustment(note: string) {
+  switch (note) {
+    case "C":
+    case "C#":
+      return -1.1;
+    case "D":
+      return -0.9;
+    case "D#":
+      return -0.9;
+    case "E":
+      return -0.8;
+    case "F":
+      return -0.7;
+    case "F#":
+      return -0.8;
+    case "G":
+      return -0.7;
+    case "G#":
+      return -0.7;
+    case "A":
+    case "A#":
+      return -0.7;
+    default:
+      // A and onwards (A, A#, B, etc)
+      return -0.7;
+  }
+}
+
+export function playNoteByName(
+  name: keyof typeof NOTE_FREQS,
+  duration = 0.6,
+  type = "sine"
+) {
+  const freq = NOTE_FREQS[name];
+  if (freq) playNote(freq, duration, type);
 }

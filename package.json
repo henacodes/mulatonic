@@ -13,12 +13,12 @@
     "@react-three/csg": "^4.0.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
+    "@react-three/postprocessing": "^3.0.4",
     "@react-three/rapier": "^2.2.0",
     "pitchy": "^4.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "three": "^0.182.0",
-    "tone": "^15.1.22"
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

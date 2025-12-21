@@ -1,24 +1,9 @@
-import React, { useEffect, useRef, type RefObject } from "react";
+import { useRef, type RefObject } from "react";
 
 // NOTE: Use a bare import if you have it in node_modules, or an ESM CDN import in Vite-like environments.
 // import { PitchDetector } from "pitchy";
 import { PitchDetector } from "pitchy";
-
-// Helper for note names
-const NOTE_NAMES = [
-  "C",
-  "C#",
-  "D",
-  "D#",
-  "E",
-  "F",
-  "F#",
-  "G",
-  "G#",
-  "A",
-  "A#",
-  "B",
-];
+import { NOTE_NAMES } from "../constants";
 
 function getNoteName(frequency: number) {
   if (!frequency || isNaN(frequency)) return "-";
@@ -85,8 +70,42 @@ export default function PitchNoteLogger({
 
   return (
     !gameStart && (
-      <div style={{ textAlign: "center", padding: 40 }}>
-        <button onClick={startPitchDetection}>Start Game</button>
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          width: "100vw",
+          height: "100vh",
+          zIndex: 9999,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backdropFilter: "blur(8px)",
+          background: "rgba(255,255,255,0.5)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <button
+            style={{
+              fontSize: "1.2em",
+              padding: "0.75em 2em",
+              borderRadius: "0.5em",
+              cursor: "pointer",
+              border: "2px solid #8187dc",
+              background: "#faf8ff",
+              fontWeight: 600,
+            }}
+            onClick={startPitchDetection}
+          >
+            Start Game
+          </button>
+        </div>
       </div>
     )
   );

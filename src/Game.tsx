@@ -1,20 +1,30 @@
 import * as THREE from "three";
 import Ball from "./components/Ball";
 import Track from "./components/Track";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { useRef, useEffect, useState, type RefObject, type JSX } from "react";
-import { Physics, RapierRigidBody } from "@react-three/rapier";
+import { useFrame } from "@react-three/fiber";
+import {
+  Environment,
+  OrbitControls,
+  PerspectiveCamera,
+} from "@react-three/drei";
+import { useRef, useEffect, useState, type RefObject } from "react";
+import { RapierRigidBody } from "@react-three/rapier";
 import Obstacle from "./Obstacle";
-import { noteToNormalizedValue } from "./utils";
-import { NOTE_NAMES } from "./constants";
+import { getNoteAdjustment, noteToNormalizedValue } from "./utils";
 
+import HoveringBall from "./components/HoveringBall";
+import PostProcessing from "./components/PostProcessing";
+import type { CurrentObstacle } from "./types";
 export default function Game({
   notes,
   noteSang,
+  onFinish,
+  onCurrentObsChange, // ADDED
 }: {
   notes: string[];
   noteSang: RefObject<string | null>;
+  onFinish: () => void;
+  onCurrentObsChange: (obs: CurrentObstacle | null) => void; // type as needed
 }) {
   const ballRef = useRef<RapierRigidBody>(null);
   const [ballPos, setBallPos] = useState<THREE.Vector3Tuple>([0, 1, 4]);
@@ -36,6 +46,8 @@ export default function Game({
     const t = noteToNormalizedValue(note, 0, 1); // normalized 0-1
     return minHoleY + t * (maxHoleY - minHoleY);
   }
+
+  console.log("note to hole y", noteToHoleY("A"));
   const obstacles = notes.map((note, i) => ({
     z: -i * obstacleSpacing,
     note,
@@ -75,27 +87,21 @@ export default function Game({
       const velocityZ = distanceToWallZ / t;
       let velocityY = (distanceToHoleY - 0.5 * g * t * t) / t;
 
-      console.log("SANG ", noteSang.current);
-
       if (noteSang.current == currentObs.note) {
-        console.log("rightttttttttttt", velocityY);
-        console.log("distance to hole y", distanceToHoleY);
+        let yJumpAdjust = getNoteAdjustment(currentObs.note);
+        console.log("adjust vel", yJumpAdjust);
         body.setLinvel(
           {
             x: 0,
-            y:
-              velocityY +
-              (NOTE_NAMES.indexOf(currentObs.note) >= 6 ? -0.3 : -0.7),
-            z: velocityZ,
+            y: velocityY + yJumpAdjust,
+            z: velocityZ + 0.1,
           },
           true
         );
       } else {
         const targetY = noteToHoleY(noteSang.current);
-        console.log("targetY", targetY);
         velocityY = (targetY - ballPos[1] - 0.5 * g * t * t) / t;
 
-        console.log("Velocity Y", velocityY);
         body.setLinvel(
           {
             x: 0,
@@ -133,9 +139,19 @@ export default function Game({
     }
   });
 
+  useEffect(() => {
+    if (!currentObs) onFinish();
+  }, [currentObs, onFinish]);
+
+  useEffect(() => {
+    onCurrentObsChange(currentObs || null);
+    console.log(currentObs);
+  }, [currentObs, onCurrentObsChange]);
+
+  if (!currentObs) return null; // or return a custom <GameCompleteOverlay /> if you want an effect
+
   return (
     <>
-      <axesHelper args={[2]} />
       <OrbitControls
         target={[ballPos[0], 0, ballPos[2]]}
         maxPolarAngle={Math.PI / 2}
@@ -159,12 +175,11 @@ export default function Game({
         />
       ))}
 
-      <ambientLight intensity={0.3} receiveShadow castShadow />
+      <HoveringBall position={[0, currentObs.holeY, currentObs.z]} />
 
-      <mesh position={[0, currentObs.holeY, currentObs.z]}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-        <meshStandardMaterial color="red" />
-      </mesh>
+      <ambientLight intensity={0.3} />
+      <Environment files={"/textures/hdri.exr"} />
+
       <directionalLight
         color="white"
         position={[0, 10, 5]}
@@ -173,6 +188,7 @@ export default function Game({
       />
       <Ball ref={ballRef} ballRadius={ballRadius} initialPos={[0, 1, 4]} />
       <Track />
+      <PostProcessing />
     </>
   );
 }
