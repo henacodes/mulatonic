@@ -28,7 +28,6 @@ export default function Obstacle({
   width,
   height,
   depth,
-  isCurrent = false,
 }: ObstacleProps) {
   // Calculate geometry/chunk positions
   const holeHeight = holeRadius * 2;

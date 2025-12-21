@@ -15,9 +15,9 @@ export default function SiteInfo({
         <img
           src={logoSrc}
           alt="Mulatonic Logo"
-          width={28}
-          height={28}
-          className="rounded-full bg-black  object-cover shadow"
+          width={30}
+          height={30}
+          className="rounded-full bg-primary  object-cover shadow"
           style={{ padding: "4px" }}
         />
         <span className="font-bold tracking-wide text-primary text-lg font-sans">

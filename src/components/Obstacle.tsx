@@ -1,4 +1,4 @@
-import { Geometry, Base, Subtraction, Addition } from "@react-three/csg";
+import { Geometry, Base, Subtraction } from "@react-three/csg";
 import { RigidBody, CuboidCollider } from "@react-three/rapier";
 
 type ObstacleProps = {
