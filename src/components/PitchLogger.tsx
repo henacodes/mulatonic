@@ -72,7 +72,7 @@ export default function PitchNoteLogger({
     !gameStart && (
       <div
         className="
-    fixed inset-0 w-screen h-screen z-[9999]
+    fixed inset-0 w-screen h-screen z-[100]
     flex items-center justify-center
     backdrop-blur-lg bg-white/50
   "

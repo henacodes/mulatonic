@@ -66,27 +66,26 @@ export function getNoteAdjustment(note: string) {
   switch (note) {
     case "C":
     case "C#":
-      return -1.1;
+      return -0.6;
     case "D":
-      return -0.9;
+      return -0.6;
     case "D#":
       return -0.9;
     case "E":
-      return -0.8;
+      return -0.4;
     case "F":
-      return -0.7;
+      return -0.4;
     case "F#":
-      return -0.8;
+      return -0.6;
     case "G":
-      return -0.7;
+      return -0.1;
     case "G#":
-      return -0.7;
+      return -0.2;
     case "A":
     case "A#":
-      return -0.7;
+      return -0.2;
     default:
-      // A and onwards (A, A#, B, etc)
-      return -0.7;
+      return -0.2;
   }
 }
 

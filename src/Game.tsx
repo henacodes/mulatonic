@@ -94,7 +94,7 @@ export default function Game({
           {
             x: 0,
             y: velocityY + yJumpAdjust,
-            z: velocityZ + 0.1,
+            z: velocityZ,
           },
           true
         );

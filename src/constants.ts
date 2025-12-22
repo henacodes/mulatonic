@@ -16,10 +16,11 @@ export const NOTE_NAMES = [
 ];
 
 export const SCALES: Scale[] = [
-  { name: "C Major", notes: ["C", "D", "E", "F", "G", "A", "B"] },
-  { name: "G Major", notes: ["G", "A", "B", "C", "D", "E", "F#"] },
-  { name: "A Minor", notes: ["A", "B", "C", "D", "E", "F", "G"] },
-  { name: "Pentatonic", notes: ["C", "D", "E", "G", "A"] },
+  { name: "Pentatonic", notes: ["C", "D", "E", "G", "A", "C"] },
+  { name: "Tezeta Minor", notes: ["A", "B", "C", "E", "F", "A"] },
+  { name: "Ambassel", notes: ["E", "F", "A", "B", "C", "E"] },
+  { name: "Anchi Hoye Lene", notes: ["B", "C", "E", "F", "G#", "B"] },
+  { name: "Bati Major", notes: ["C", "E", "F", "G", "B", "C"] },
 ];
 
 export const NOTE_FREQS = {

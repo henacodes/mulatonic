@@ -5,49 +5,32 @@ export default function GameFinishScreen({
   onRestart: () => void;
 }) {
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: "30vh",
-        left: 0,
-        right: 0,
-        margin: "auto",
-        width: "max-content",
-        background: "#fff",
-        borderRadius: "1em",
-        boxShadow: "0 8px 32px #0002",
-        padding: "3em 4em",
-        textAlign: "center",
-        zIndex: 99,
-      }}
-    >
-      <h1
+    <>
+      <div
         style={{
-          color: "#ff8fab",
-          fontFamily: "sans-serif",
-          fontSize: "2em",
-          marginBottom: "0.5em",
+          position: "absolute",
+          top: "30vh",
+          left: 0,
+          right: 0,
+          margin: "auto",
+          width: "max-content",
+          background: "#fff",
+          borderRadius: "1em",
+          boxShadow: "0 8px 32px #0002",
+          padding: "3em 4em",
+          textAlign: "center",
+          zIndex: 99,
         }}
       >
-        🎉 You Finished!
-      </h1>
-      <button
-        onClick={onRestart}
-        style={{
-          marginTop: "1.2em",
-          fontSize: "1.3em",
-          padding: "0.7em 2em",
-          borderRadius: "0.5em",
-          cursor: "pointer",
-          background: "#a29bfe",
-          border: "none",
-          color: "#fff",
-          fontWeight: 700,
-          boxShadow: "0 2px 20px #a29bfe44",
-        }}
-      >
-        Back to Scale Selection
-      </button>
-    </div>
+        <h1>🎉 You Finished!</h1>
+        <button
+          onClick={onRestart}
+          className=" mt-[1.2rem] text-[1.3rem] p-[0.7em] rounded-md cursor-pointer  text-primary-foreground bg-primary  "
+        >
+          Back to Scale Selection
+        </button>
+      </div>
+      <div className=" fixed top-0 left-0 w-screen h-screen  backdrop-blur-md     "></div>
+    </>
   );
 }

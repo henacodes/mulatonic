@@ -10,7 +10,7 @@ export default function PostProcessing() {
     <EffectComposer>
       <Bloom intensity={0.4} />
       <Vignette darkness={0.9} />
-      <Noise opacity={0.09} />
+      <Noise opacity={0.15} />
     </EffectComposer>
   );
 }
