@@ -6,15 +6,17 @@ import {
   Environment,
   OrbitControls,
   PerspectiveCamera,
+  Stars,
 } from "@react-three/drei";
 import { useRef, useEffect, useState, type RefObject } from "react";
 import { RapierRigidBody } from "@react-three/rapier";
-import Obstacle from "./Obstacle";
+import Obstacle from "./components/Obstacle";
 import { getNoteAdjustment, noteToNormalizedValue } from "./utils";
 
 import HoveringBall from "./components/HoveringBall";
 import PostProcessing from "./components/PostProcessing";
 import type { CurrentObstacle } from "./types";
+import Planet from "./components/Planet";
 export default function Game({
   notes,
   noteSang,
@@ -178,7 +180,7 @@ export default function Game({
       <HoveringBall position={[0, currentObs.holeY, currentObs.z]} />
 
       <ambientLight intensity={0.3} />
-      <Environment files={"/textures/hdri.exr"} />
+      {/*   <Environment files={"/textures/hdri.exr"} /> */}
 
       <directionalLight
         color="white"
@@ -187,7 +189,18 @@ export default function Game({
         castShadow
       />
       <Ball ref={ballRef} ballRadius={ballRadius} initialPos={[0, 1, 4]} />
+      <Planet />
       <Track />
+      <Stars
+        radius={40}
+        depth={50}
+        count={5000}
+        factor={4}
+        saturation={1}
+        fade
+        speed={2}
+      />
+
       <PostProcessing />
     </>
   );

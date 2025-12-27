@@ -13,7 +13,11 @@ const Ball = forwardRef<
   >
     <mesh>
       <sphereGeometry args={[ballRadius, 32, 32]} />
-      <meshStandardMaterial color="#ff74c9" />
+      <meshStandardMaterial
+        color="#90AB8B"
+        emissive="#90AB8B"
+        emissiveIntensity={3}
+      />
     </mesh>
     <BallCollider args={[0.25]} />
   </RigidBody>

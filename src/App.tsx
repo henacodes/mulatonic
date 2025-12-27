@@ -78,7 +78,7 @@ export default function App() {
             />
           )}
           <Canvas
-            style={{ zIndex: 0 }}
+            style={{ zIndex: 0, backgroundColor: "black" }}
             shadows
             dpr={[1, 2]}
             gl={{ toneMapping: THREE.ACESFilmicToneMapping }}

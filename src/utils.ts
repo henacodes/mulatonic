@@ -97,3 +97,8 @@ export function playNoteByName(
   const freq = NOTE_FREQS[name];
   if (freq) playNote(freq, duration, type);
 }
+
+export default /* glsl */ `
+
+
+`;

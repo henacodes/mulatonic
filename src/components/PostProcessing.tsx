@@ -8,8 +8,8 @@ import {
 export default function PostProcessing() {
   return (
     <EffectComposer>
-      <Bloom intensity={0.4} />
-      <Vignette darkness={0.9} />
+      <Bloom intensity={1} />
+      <Vignette darkness={0.7} />
       <Noise opacity={0.15} />
     </EffectComposer>
   );

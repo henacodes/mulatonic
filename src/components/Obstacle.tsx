@@ -1,70 +1,100 @@
+import { useRef, useEffect } from "react";
+import { Text, useTexture } from "@react-three/drei";
+
 import { Geometry, Base, Subtraction } from "@react-three/csg";
-import { RigidBody, CuboidCollider } from "@react-three/rapier";
+import {
+  RigidBody,
+  CuboidCollider,
+  RapierRigidBody,
+} from "@react-three/rapier";
+import * as THREE from "three";
 
 type ObstacleProps = {
-  position?: [number, number, number];
-  rectWidth?: number;
-  rectHeight?: number;
-  rectDepth?: number;
-  holeY?: number; // Center Y position of hole (relative to group)
-  holeRadius?: number;
+  position: THREE.Vector3Tuple;
+  note: string;
+  holeY: number;
+  holeRadius: number;
+  width: number;
+  height: number;
+  depth: number;
+  isCurrent: boolean;
 };
 
-export default function ObstacleWithHole({
-  position = [0, 0, 0],
-  rectWidth = 0.4,
-  rectHeight = 2,
-  rectDepth = 0.5,
-  holeY = 0.5,
-  holeRadius = 0.3,
+export default function Obstacle({
+  position,
+  note,
+  holeY,
+  holeRadius,
+  width,
+  height,
+  depth,
 }: ObstacleProps) {
+  // Calculate geometry/chunk positions
   const holeHeight = holeRadius * 2;
-
-  // Compute top and bottom chunk thickness
-  const wallTop = rectHeight / 2;
-  const wallBottom = -rectHeight / 2;
+  const wallTop = height / 2;
+  const wallBottom = -height / 2;
   const holeTop = holeY + holeHeight / 2;
   const holeBottom = holeY - holeHeight / 2;
 
   const topChunkHeight = wallTop - holeTop;
   const bottomChunkHeight = holeBottom - wallBottom;
-
-  // For physics colliders and solids: position is local to center of wall!
   const topChunkY = wallTop - topChunkHeight / 2;
   const bottomChunkY = wallBottom + bottomChunkHeight / 2;
 
+  // Optionally, handle highlighting/collider enable/disable:
+  const topRef = useRef<RapierRigidBody>(null);
+  const bottomRef = useRef<RapierRigidBody>(null);
+
   return (
     <group position={position}>
+      {/* Visual Mesh with the hole */}
       <mesh>
-        <meshStandardMaterial />
+        <meshStandardMaterial
+          color={"#54c974"}
+          emissive="#54c974" // glows with this color even in darkness
+          emissiveIntensity={2.5}
+        />
         <Geometry>
           <Base>
-            <boxGeometry args={[rectWidth, rectHeight, rectDepth]} />
+            <boxGeometry args={[width, height, depth]} />
           </Base>
+          {/* Carve out the tunnel/hole */}
           <Subtraction rotation={[Math.PI / 2, 0, 0]} position={[0, holeY, 0]}>
-            <cylinderGeometry args={[holeRadius, holeRadius, 10, 32]} />
+            <cylinderGeometry args={[holeRadius, holeRadius, depth * 2, 32]} />
           </Subtraction>
         </Geometry>
       </mesh>
 
-      {/* Top chunk physics */}
+      {/* Collider for the upper chunk */}
       {topChunkHeight > 0 && (
-        <RigidBody type="fixed" colliders={false}>
+        <RigidBody ref={topRef} type="fixed" colliders={false}>
           <CuboidCollider
-            args={[rectWidth / 2, topChunkHeight / 2, rectDepth / 2]}
+            args={[width / 2, topChunkHeight / 2, depth / 2]}
             position={[0, topChunkY, 0]}
           />
         </RigidBody>
       )}
-      {/* Bottom chunk physics */}
+
       {bottomChunkHeight > 0 && (
-        <RigidBody type="fixed" colliders={false}>
+        <RigidBody ref={bottomRef} type="fixed" colliders={false}>
           <CuboidCollider
-            args={[rectWidth / 2, bottomChunkHeight / 2, rectDepth / 2]}
+            args={[width / 2, bottomChunkHeight / 2, depth / 2]}
             position={[0, bottomChunkY, 0]}
           />
         </RigidBody>
       )}
+
+      <Text
+        position={[0, wallTop + 0.25, 0]}
+        fontSize={0.5}
+        color="#ffd166"
+        anchorX="center"
+        anchorY="bottom"
+        outlineColor="white"
+        outlineWidth={0.005}
+      >
+        {note}
+      </Text>
     </group>
   );
 }
