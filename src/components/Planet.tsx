@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import * as THREE from "three";
 
 export default function Planet() {
@@ -10,30 +10,22 @@ export default function Planet() {
   const ringRef = useRef<THREE.Mesh>(null);
   const ringMatRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (saturnRingTex) {
-      saturnRingTex.wrapS = THREE.ClampToEdgeWrapping;
-      saturnRingTex.wrapT = THREE.ClampToEdgeWrapping;
-      saturnRingTex.flipY = false;
-      saturnRingTex.needsUpdate = true;
-    }
-  }, [saturnRingTex]);
+  const planetRef = useRef<THREE.Mesh>(null);
+  const position: THREE.Vector3Tuple = [-100, -15, -60];
 
-  /*   useFrame((_, delta) => {
-    if (ringMatRef.current && ringMatRef.current.map) {
-      ringMatRef.current.map.offset.x += delta * 0.2; // tweak factor for speed!
-      if (ringMatRef.current.map.offset.x > 1)
-        ringMatRef.current.map.offset.x -= 1;
-    } else {
-      console.log(ringMatRef.current);
-      console.log("notttttttttttttttttttttttt rotating");
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    if (planetRef.current) {
+      planetRef.current.position.y = position[1] + Math.sin(t * 2) * 0.5;
+      planetRef.current.rotateY(Math.PI / 100);
     }
-  }); */
+  });
 
   return (
     <mesh
+      ref={planetRef}
       rotation={[Math.PI / -1.1, 0, 0]}
-      position={[-100, -15, -60]}
+      position={position}
       scale={8}
       castShadow={false}
       receiveShadow={false}

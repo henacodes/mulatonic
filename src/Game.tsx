@@ -49,7 +49,6 @@ export default function Game({
     return minHoleY + t * (maxHoleY - minHoleY);
   }
 
-  console.log("note to hole y", noteToHoleY("A"));
   const obstacles = notes.map((note, i) => ({
     z: -i * obstacleSpacing,
     note,
@@ -91,7 +90,6 @@ export default function Game({
 
       if (noteSang.current == currentObs.note) {
         let yJumpAdjust = getNoteAdjustment(currentObs.note);
-        console.log("adjust vel", yJumpAdjust);
         body.setLinvel(
           {
             x: 0,
@@ -147,10 +145,9 @@ export default function Game({
 
   useEffect(() => {
     onCurrentObsChange(currentObs || null);
-    console.log(currentObs);
   }, [currentObs, onCurrentObsChange]);
 
-  if (!currentObs) return null; // or return a custom <GameCompleteOverlay /> if you want an effect
+  if (!currentObs) return null;
 
   return (
     <>
@@ -191,6 +188,7 @@ export default function Game({
       <Ball ref={ballRef} ballRadius={ballRadius} initialPos={[0, 1, 4]} />
       <Planet />
       <Track />
+
       <Stars
         radius={40}
         depth={50}
