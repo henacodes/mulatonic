@@ -1,5 +1,5 @@
-import { useRef, useEffect } from "react";
-import { Text, useTexture } from "@react-three/drei";
+import { useRef } from "react";
+import { Text } from "@react-three/drei";
 
 import { Geometry, Base, Subtraction } from "@react-three/csg";
 import {

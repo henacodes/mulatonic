@@ -2,12 +2,7 @@ import * as THREE from "three";
 import Ball from "./components/Ball";
 import Track from "./components/Track";
 import { useFrame } from "@react-three/fiber";
-import {
-  Environment,
-  OrbitControls,
-  PerspectiveCamera,
-  Stars,
-} from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera, Stars } from "@react-three/drei";
 import { useRef, useEffect, useState, type RefObject } from "react";
 import { RapierRigidBody } from "@react-three/rapier";
 import Obstacle from "./components/Obstacle";
