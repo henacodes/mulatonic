@@ -14,9 +14,16 @@ export default function Planet() {
   const position: THREE.Vector3Tuple = [-100, -15, -60];
 
   useFrame(({ clock }) => {
+    const figure8Width = 3.0; // <-- Increase for wider movement (X-axis)
+    const figure8Height = 2.0; // <-- Increase for taller movement (Y-axis)
+    const speed = 1;
     const t = clock.getElapsedTime();
     if (planetRef.current) {
-      planetRef.current.position.y = position[1] + Math.sin(t * 2) * 0.5;
+      // Figure-8 (lemniscate)
+      planetRef.current.position.x =
+        position[0] + figure8Width * Math.sin(t * speed);
+      planetRef.current.position.y =
+        position[1] + figure8Height * Math.sin(t * speed) * Math.cos(t * speed);
       planetRef.current.rotateY(Math.PI / 100);
     }
   });
@@ -51,7 +58,6 @@ export default function Planet() {
                   v3.length() < (1.2 + 2) / 2 ? 0 : 1,
                   Math.atan2(v3.y, v3.x) / (2 * Math.PI) + 0.5
                 );
-                // (Optional) swap 0/1 if texture reversed; adjust as needed
               }
               uv.needsUpdate = true;
             }
@@ -60,6 +66,7 @@ export default function Planet() {
         <meshBasicMaterial
           ref={ringMatRef}
           transparent
+          blendAlpha={0.2}
           opacity={1}
           map={saturnRingTex}
           side={THREE.DoubleSide}

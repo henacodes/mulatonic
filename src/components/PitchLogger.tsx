@@ -74,7 +74,7 @@ export default function PitchNoteLogger({
         className="
     fixed inset-0 w-screen h-screen z-[100]
     flex items-center justify-center
-    backdrop-blur-lg bg-white/50
+    backdrop-blur-lg 
   "
       >
         <div className="flex flex-col items-center">

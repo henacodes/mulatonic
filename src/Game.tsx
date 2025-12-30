@@ -10,8 +10,10 @@ import { getNoteAdjustment, noteToNormalizedValue } from "./utils";
 
 import HoveringBall from "./components/HoveringBall";
 import PostProcessing from "./components/PostProcessing";
+
 import type { CurrentObstacle } from "./types";
 import Planet from "./components/Planet";
+import FogBackground from "./components/VolumetricSphere";
 export default function Game({
   notes,
   noteSang,
@@ -193,6 +195,7 @@ export default function Game({
         fade
         speed={2}
       />
+      <FogBackground />
 
       <PostProcessing />
     </>

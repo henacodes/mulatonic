@@ -4,7 +4,6 @@ import GameFinishScreen from "./components/GameFinish";
 import { SCALES } from "./constants";
 import Game from "./Game";
 import PitchNoteLogger from "./components/PitchLogger";
-import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
 import type { CurrentObstacle, Scale } from "./types";
@@ -42,31 +41,10 @@ export default function App() {
   return (
     <div
       id="canvas-container"
-      style={{
-        width: "100vw",
-        height: "100vh",
-        position: "fixed",
-        inset: 0,
-        background: "#fff",
-        zIndex: 0,
-      }}
+      className=" w-screen h-screen fixed inset-0 z-0 bg-secondary-foreground  "
     >
       {!selectedScale ? (
-        <div
-          style={{
-            zIndex: 10,
-            position: "absolute",
-            top: "10vh",
-            left: 0,
-            right: 0,
-            margin: "auto",
-            width: "max-content",
-            background: "#fff",
-            borderRadius: "1em",
-            boxShadow: "0 8px 32px #0001",
-            padding: "2em",
-          }}
-        >
+        <div className="z-10 absolute top-[10vh] left-0 right-0 mx-auto w-max rounded-[1em] shadow-[0_8px_32px_#0001] p-8">
           <ScaleSelector scales={SCALES} onSelect={handleScaleSelect} />
         </div>
       ) : (
@@ -81,7 +59,6 @@ export default function App() {
             style={{ zIndex: 0, backgroundColor: "black" }}
             shadows
             dpr={[1, 2]}
-            gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
           >
             <Physics>
               {!gameFinished && (

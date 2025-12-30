@@ -17,7 +17,7 @@ export default function CurrentNoteHUD({
       className="
         fixed top-[4vh] left-0 right-0 mx-auto w-1/2 z-100
         flex flex-row gap-12 justify-center items-center
-        px-8 py-4 rounded-2xl bg-white/70 backdrop-blur-md shadow-xl
+        px-8 py-4 rounded-2xl  backdrop-blur-md shadow-xl
       "
     >
       <div className="text-[1.25em] font-semibold text-primary">
